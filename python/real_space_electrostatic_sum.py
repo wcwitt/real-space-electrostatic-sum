@@ -20,8 +20,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-#!/usr/bin/env/python
-
+import os
 import ctypes as ct
 import numpy as np
 
@@ -29,7 +28,7 @@ import numpy as np
 #                                                             ctypes setup
 
 # load library
-lib = ct.cdll.LoadLibrary('../lib/real_space_electrostatic_sum.so')
+lib = ct.cdll.LoadLibrary(os.path.dirname(os.path.abspath(__file__)) + '/../lib/real_space_electrostatic_sum.so')
 
 # set argtypes and restype for 'energy_c'
 lib.energy_c.argtypes = [ct.POINTER(ct.c_double), # a_x
