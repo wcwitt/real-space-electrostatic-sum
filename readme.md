@@ -11,6 +11,6 @@ Repository contains:
 * a [Python wrapper](python/real_space_electrostatic_sum.py) built with ctypes;
 * a [Jupyter notebook](https://nbviewer.jupyter.org/github/wcwitt/real-space-electrostatic-sum/blob/master/python/benchmarking.ipynb) with examples and benchmarking.
 
-Forces and stresses not yet implemented.
+Now with forces and stresses!
 
-Warning: The "num" array expects Fortran ordering (even in C interface), so beware when calling from C/C++.
+Warning: The "loc" array expects Fortran ordering, so beware when calling from C/C++.
