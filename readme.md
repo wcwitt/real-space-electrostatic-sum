@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.com/wcwitt/real-space-electrostatic-sum.svg?branch=master)](https://travis-ci.com/wcwitt/real-space-electrostatic-sum)
 # real-space-electrostatic-sum
 
 Implementation of the real-space electrostatic sum outlined in [Pickard, *Phys. Rev. Mat.* **2**, 013806, 2018](https://doi.org/10.1103/PhysRevMaterials.2.013806).
