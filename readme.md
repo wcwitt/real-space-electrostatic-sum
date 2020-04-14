@@ -12,5 +12,3 @@ Repository contains:
 * a [Python wrapper](python/real_space_electrostatic_sum.py) built with ctypes;
 * a [Jupyter notebook](https://nbviewer.jupyter.org/github/wcwitt/real-space-electrostatic-sum/blob/master/python/benchmarking.ipynb) with examples and benchmarking;
 * a [set of unit tests](https://github.com/wcwitt/real-space-electrostatic-sum/blob/master/test/test.py) for the energy, force, and stress routines.
-
-Warning: The "loc" array expects column-major storage; beware when calling from C/C++.

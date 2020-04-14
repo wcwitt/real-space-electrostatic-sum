@@ -42,7 +42,7 @@ class TestRealSpaceElectrostaticSum(unittest.TestCase):
         h_max = 4.42
         r_d_hat = 2.0
         ene = real_space_electrostatic_sum.energy(
-                a_1, a_2, a_3, loc.shape[0], loc, chg,
+                a_1, a_2, a_3, loc.shape[0], loc[:,0], loc[:,1], loc[:,2], chg,
                 3.0*r_d_hat**2*h_max, r_d_hat*h_max)
         ewald = -2.69595457432924945
         self.assertAlmostEqual(ene, ewald, places=9)
@@ -58,7 +58,7 @@ class TestRealSpaceElectrostaticSum(unittest.TestCase):
         h_max = 5.92
         r_d_hat = 2.0
         ene_per_ion = real_space_electrostatic_sum.energy(
-                a_1, a_2, a_3, loc.shape[0], loc, chg,
+                a_1, a_2, a_3, loc.shape[0], loc[:,0], loc[:,1], loc[:,2], chg,
                 3.0*r_d_hat**2*h_max, r_d_hat*h_max) / loc.shape[0]
         ewald_per_ion = -8.39857465282205418/loc.shape[0]
         self.assertAlmostEqual(ene_per_ion, ewald_per_ion, places=9)
@@ -82,7 +82,7 @@ class TestRealSpaceElectrostaticSum(unittest.TestCase):
         h_max = 10.21
         r_d_hat = 2.0
         ene_per_ion = real_space_electrostatic_sum.energy(
-                a_1, a_2, a_3, loc.shape[0], loc, chg,
+                a_1, a_2, a_3, loc.shape[0], loc[:,0], loc[:,1], loc[:,2], chg,
                 3.0*r_d_hat**2*h_max, r_d_hat*h_max) / loc.shape[0]
         ewald_per_ion = -69.48809871723248932 / loc.shape[0]
         self.assertAlmostEqual(ene_per_ion, ewald_per_ion, places=9)
@@ -136,7 +136,7 @@ class TestRealSpaceElectrostaticSum(unittest.TestCase):
         h_max = 14.93
         r_d_hat = 2.0
         ene_per_ion = real_space_electrostatic_sum.energy(
-                a_1, a_2, a_3, loc.shape[0], loc, chg,
+                a_1, a_2, a_3, loc.shape[0], loc[:,0], loc[:,1], loc[:,2], chg,
                 3.0*r_d_hat**2*h_max, r_d_hat*h_max) / loc.shape[0]
         ewald_per_ion = -244.05500850908111943 / loc.shape[0]
         self.assertAlmostEqual(ene_per_ion, ewald_per_ion, places=9)
@@ -164,7 +164,7 @@ class TestRealSpaceElectrostaticSum(unittest.TestCase):
 
         # compute forces
         fx, fy, fz = real_space_electrostatic_sum.force(
-                a_1, a_2, a_3, loc.shape[0], loc, chg,
+                a_1, a_2, a_3, loc.shape[0], loc[:,0], loc[:,1], loc[:,2], chg,
                 3.0*r_d_hat**2*h_max, r_d_hat*h_max)
         f = np.vstack((fx, fy, fz)).T
 
@@ -181,7 +181,7 @@ class TestRealSpaceElectrostaticSum(unittest.TestCase):
                 x = x - np.floor(x)  # ensure position is within cell
                 loc[i,:] = a.dot(x)  # recover cartesian position
                 ene_p = real_space_electrostatic_sum.energy(
-                        a_1, a_2, a_3, loc.shape[0], loc, chg,
+                        a_1, a_2, a_3, loc.shape[0], loc[:,0], loc[:,1], loc[:,2], chg,
                         3.0*r_d_hat**2*h_max, r_d_hat*h_max)
 
                 # subtract tiny amount from coordinate 
@@ -190,7 +190,7 @@ class TestRealSpaceElectrostaticSum(unittest.TestCase):
                 x = x - np.floor(x)  # ensure position is within cell
                 loc[i,:] = a.dot(x)  # recover cartesian position
                 ene_m = real_space_electrostatic_sum.energy(
-                        a_1, a_2, a_3, loc.shape[0], loc, chg,
+                        a_1, a_2, a_3, loc.shape[0], loc[:,0], loc[:,1], loc[:,2], chg,
                         3.0*r_d_hat**2*h_max, r_d_hat*h_max)
 
                 # compute approximate force and compare
@@ -231,7 +231,7 @@ class TestRealSpaceElectrostaticSum(unittest.TestCase):
 
         # compute stress
         stress = real_space_electrostatic_sum.stress(
-                a_1, a_2, a_3, loc.shape[0], loc, chg,
+                a_1, a_2, a_3, loc.shape[0], loc[:,0], loc[:,1], loc[:,2], chg,
                 3.0*r_d_hat**2*h_max, r_d_hat*h_max)
 
         # compute stress numerically
@@ -251,7 +251,7 @@ class TestRealSpaceElectrostaticSum(unittest.TestCase):
             a_e = (np.eye(3) + eps).dot(np.vstack((a_1, a_2, a_3)).T)
             loc_e = (np.eye(3) + eps).dot(loc.T).T
             ene_p = real_space_electrostatic_sum.energy(
-                    a_e[:,0], a_e[:,1], a_e[:,2], loc.shape[0], loc_e, chg,
+                    a_e[:,0], a_e[:,1], a_e[:,2], loc.shape[0], loc_e[:,0], loc_e[:,1], loc_e[:,2], chg,
                     3.0*r_d_hat**2*h_max, r_d_hat*h_max)
 
             # nudge down by tiny amount
@@ -259,7 +259,7 @@ class TestRealSpaceElectrostaticSum(unittest.TestCase):
             a_e = (np.eye(3) + eps).dot(np.vstack((a_1, a_2, a_3)).T)
             loc_e = (np.eye(3) + eps).dot(loc.T).T
             ene_m = real_space_electrostatic_sum.energy(
-                    a_e[:,0], a_e[:,1], a_e[:,2], loc.shape[0], loc_e, chg,
+                    a_e[:,0], a_e[:,1], a_e[:,2], loc.shape[0], loc_e[:,0], loc_e[:,1], loc_e[:,2], chg,
                     3.0*r_d_hat**2*h_max, r_d_hat*h_max)
 
             # compute approximate stress and compare

@@ -36,7 +36,9 @@ lib.c_energy.argtypes = [ct.POINTER(ct.c_double), # a1
                          ct.POINTER(ct.c_double), # a2
                          ct.POINTER(ct.c_double), # a3
                          ct.POINTER(ct.c_int),    # num
-                         ct.POINTER(ct.c_double), # loc
+                         ct.POINTER(ct.c_double), # rx
+                         ct.POINTER(ct.c_double), # ry
+                         ct.POINTER(ct.c_double), # rz
                          ct.POINTER(ct.c_double), # z
                          ct.POINTER(ct.c_double), # rc
                          ct.POINTER(ct.c_double), # rd
@@ -48,7 +50,9 @@ lib.c_force.argtypes = [ct.POINTER(ct.c_double), # a1
                         ct.POINTER(ct.c_double), # a2
                         ct.POINTER(ct.c_double), # a3
                         ct.POINTER(ct.c_int),    # num
-                        ct.POINTER(ct.c_double), # loc
+                        ct.POINTER(ct.c_double), # rx
+                        ct.POINTER(ct.c_double), # ry
+                        ct.POINTER(ct.c_double), # rz
                         ct.POINTER(ct.c_double), # z
                         ct.POINTER(ct.c_double), # rc
                         ct.POINTER(ct.c_double), # rd
@@ -62,7 +66,9 @@ lib.c_stress.argtypes = [ct.POINTER(ct.c_double), # a1
                          ct.POINTER(ct.c_double), # a2
                          ct.POINTER(ct.c_double), # a3
                          ct.POINTER(ct.c_int),    # num
-                         ct.POINTER(ct.c_double), # loc
+                         ct.POINTER(ct.c_double), # rx
+                         ct.POINTER(ct.c_double), # ry
+                         ct.POINTER(ct.c_double), # rz
                          ct.POINTER(ct.c_double), # z
                          ct.POINTER(ct.c_double), # rc
                          ct.POINTER(ct.c_double), # rd
@@ -72,7 +78,7 @@ lib.c_stress.restype = None
 #______________________________________________________________________________
 #                                                                   energy
 
-def energy(a1, a2, a3, num, loc, z, rc, rd):
+def energy(a1, a2, a3, num, rx, ry, rz, z, rc, rd):
 
     # create c variables (except for numpy arrays)
     num_c = ct.c_int(num)
@@ -84,7 +90,9 @@ def energy(a1, a2, a3, num, loc, z, rc, rd):
     a1_c = np.require(a1, dtype='float64', requirements=['F_CONTIGUOUS', 'ALIGNED'])
     a2_c = np.require(a2, dtype='float64', requirements=['F_CONTIGUOUS', 'ALIGNED'])
     a3_c = np.require(a3, dtype='float64', requirements=['F_CONTIGUOUS', 'ALIGNED'])
-    loc_c = np.require(loc, dtype='float64', requirements=['F_CONTIGUOUS', 'ALIGNED'])
+    rx_c = np.require(rx, dtype='float64', requirements=['F_CONTIGUOUS', 'ALIGNED'])
+    ry_c = np.require(ry, dtype='float64', requirements=['F_CONTIGUOUS', 'ALIGNED'])
+    rz_c = np.require(rz, dtype='float64', requirements=['F_CONTIGUOUS', 'ALIGNED'])
     z_c = np.require(z, dtype='float64', requirements=['F_CONTIGUOUS', 'ALIGNED'])
 
     # call library function
@@ -92,7 +100,9 @@ def energy(a1, a2, a3, num, loc, z, rc, rd):
                  a2_c.ctypes.data_as(ct.POINTER(ct.c_double)),
                  a3_c.ctypes.data_as(ct.POINTER(ct.c_double)),
                  ct.byref(num_c),
-                 loc_c.ctypes.data_as(ct.POINTER(ct.c_double)),
+                 rx_c.ctypes.data_as(ct.POINTER(ct.c_double)),
+                 ry_c.ctypes.data_as(ct.POINTER(ct.c_double)),
+                 rz_c.ctypes.data_as(ct.POINTER(ct.c_double)),
                  z_c.ctypes.data_as(ct.POINTER(ct.c_double)),
                  ct.byref(rc_c),
                  ct.byref(rd_c),
@@ -104,7 +114,7 @@ def energy(a1, a2, a3, num, loc, z, rc, rd):
 #______________________________________________________________________________
 #                                                                    force
 
-def force(a1, a2, a3, num, loc, z, rc, rd):
+def force(a1, a2, a3, num, rx, ry, rz, z, rc, rd):
 
     # create c variables (except for numpy arrays)
     num_c = ct.c_int(num)
@@ -115,7 +125,9 @@ def force(a1, a2, a3, num, loc, z, rc, rd):
     a1_c = np.require(a1, dtype='float64', requirements=['F_CONTIGUOUS', 'ALIGNED'])
     a2_c = np.require(a2, dtype='float64', requirements=['F_CONTIGUOUS', 'ALIGNED'])
     a3_c = np.require(a3, dtype='float64', requirements=['F_CONTIGUOUS', 'ALIGNED'])
-    loc_c = np.require(loc, dtype='float64', requirements=['F_CONTIGUOUS', 'ALIGNED'])
+    rx_c = np.require(rx, dtype='float64', requirements=['F_CONTIGUOUS', 'ALIGNED'])
+    ry_c = np.require(ry, dtype='float64', requirements=['F_CONTIGUOUS', 'ALIGNED'])
+    rz_c = np.require(rz, dtype='float64', requirements=['F_CONTIGUOUS', 'ALIGNED'])
     z_c = np.require(z, dtype='float64', requirements=['F_CONTIGUOUS', 'ALIGNED'])
 
     # create numpy arrays for forces
@@ -128,7 +140,9 @@ def force(a1, a2, a3, num, loc, z, rc, rd):
                 a2_c.ctypes.data_as(ct.POINTER(ct.c_double)),
                 a3_c.ctypes.data_as(ct.POINTER(ct.c_double)),
                 ct.byref(num_c),
-                loc_c.ctypes.data_as(ct.POINTER(ct.c_double)),
+                rx_c.ctypes.data_as(ct.POINTER(ct.c_double)),
+                ry_c.ctypes.data_as(ct.POINTER(ct.c_double)),
+                rz_c.ctypes.data_as(ct.POINTER(ct.c_double)),
                 z_c.ctypes.data_as(ct.POINTER(ct.c_double)),
                 ct.byref(rc_c),
                 ct.byref(rd_c),
@@ -142,7 +156,7 @@ def force(a1, a2, a3, num, loc, z, rc, rd):
 #______________________________________________________________________________
 #                                                                   stress
 
-def stress(a1, a2, a3, num, loc, z, rc, rd):
+def stress(a1, a2, a3, num, rx, ry, rz, z, rc, rd):
 
     # create c variables (except for numpy arrays)
     num_c = ct.c_int(num)
@@ -153,7 +167,9 @@ def stress(a1, a2, a3, num, loc, z, rc, rd):
     a1_c = np.require(a1, dtype='float64', requirements=['F_CONTIGUOUS', 'ALIGNED'])
     a2_c = np.require(a2, dtype='float64', requirements=['F_CONTIGUOUS', 'ALIGNED'])
     a3_c = np.require(a3, dtype='float64', requirements=['F_CONTIGUOUS', 'ALIGNED'])
-    loc_c = np.require(loc, dtype='float64', requirements=['F_CONTIGUOUS', 'ALIGNED'])
+    rx_c = np.require(rx, dtype='float64', requirements=['F_CONTIGUOUS', 'ALIGNED'])
+    ry_c = np.require(ry, dtype='float64', requirements=['F_CONTIGUOUS', 'ALIGNED'])
+    rz_c = np.require(rz, dtype='float64', requirements=['F_CONTIGUOUS', 'ALIGNED'])
     z_c = np.require(z, dtype='float64', requirements=['F_CONTIGUOUS', 'ALIGNED'])
 
     # create numpy array for stress
@@ -164,7 +180,9 @@ def stress(a1, a2, a3, num, loc, z, rc, rd):
                  a2_c.ctypes.data_as(ct.POINTER(ct.c_double)),
                  a3_c.ctypes.data_as(ct.POINTER(ct.c_double)),
                  ct.byref(num_c),
-                 loc_c.ctypes.data_as(ct.POINTER(ct.c_double)),
+                 rx_c.ctypes.data_as(ct.POINTER(ct.c_double)),
+                 ry_c.ctypes.data_as(ct.POINTER(ct.c_double)),
+                 rz_c.ctypes.data_as(ct.POINTER(ct.c_double)),
                  z_c.ctypes.data_as(ct.POINTER(ct.c_double)),
                  ct.byref(rc_c),
                  ct.byref(rd_c),

@@ -31,14 +31,14 @@ module real_space_electrostatic_sum
 
 contains
 
-subroutine energy(a1, a2, a3, num, loc, z, rc, rd, ene)
+subroutine energy(a1, a2, a3, num, rx, ry, rz, z, rc, rd, ene)
 !______________________________________________________________________________
 !
     implicit none
 
     real(dp), intent(in)   ::  a1(3), a2(3), a3(3)
     integer,  intent(in)   ::  num
-    real(dp), intent(in)   ::  loc(num,3)
+    real(dp), intent(in)   ::  rx(num), ry(num), rz(num)
     real(dp), intent(in)   ::  z(num)
     real(dp), intent(in)   ::  rc
     real(dp), intent(in)   ::  rd
@@ -94,7 +94,8 @@ subroutine energy(a1, a2, a3, num, loc, z, rc, rd, ene)
                 if (i==j .and. shift1==0 .and. shift2==0 .and. shift3==0) cycle
 
                 ! compute distance between points
-                xyz_ij = loc(i,:) - (origin_j + loc(j,:))
+                xyz_ij = (/rx(i), ry(i), rz(i)/) &
+                                - (origin_j + (/rx(j), ry(j), rz(j)/))
                 rij = sqrt(sum(xyz_ij * xyz_ij))
 
                 ! only proceed if rij < rc
@@ -127,14 +128,14 @@ subroutine energy(a1, a2, a3, num, loc, z, rc, rd, ene)
 
 end subroutine
 
-subroutine force(a1, a2, a3, num, loc, z, rc, rd, fx, fy, fz)
+subroutine force(a1, a2, a3, num, rx, ry, rz, z, rc, rd, fx, fy, fz)
 !______________________________________________________________________________
 !
     implicit none
 
     real(dp), intent(in)   ::  a1(3), a2(3), a3(3)
     integer,  intent(in)   ::  num
-    real(dp), intent(in)   ::  loc(num,3)
+    real(dp), intent(in)   ::  rx(num), ry(num), rz(num)
     real(dp), intent(in)   ::  z(num)
     real(dp), intent(in)   ::  rc
     real(dp), intent(in)   ::  rd
@@ -181,7 +182,8 @@ subroutine force(a1, a2, a3, num, loc, z, rc, rd, fx, fy, fz)
                 if (i==j .and. shift1==0 .and. shift2==0 .and. shift3==0) cycle
 
                 ! compute distance between points
-                xyz_ij = loc(i,:) - (origin_j + loc(j,:))
+                xyz_ij = (/rx(i), ry(i), rz(i)/) &
+                                - (origin_j + (/rx(j), ry(j), rz(j)/))
                 rijrij = sum(xyz_ij * xyz_ij)
                 rij = sqrt(rijrij)
                 rij_rd = rij / rd
@@ -214,14 +216,14 @@ subroutine force(a1, a2, a3, num, loc, z, rc, rd, fx, fy, fz)
 
 end subroutine
 
-subroutine stress(a1, a2, a3, num, loc, z, rc, rd, s)
+subroutine stress(a1, a2, a3, num, rx, ry, rz, z, rc, rd, s)
 !______________________________________________________________________________
 !
     implicit none
 
     real(dp), intent(in)   ::  a1(3), a2(3), a3(3)
     integer,  intent(in)   ::  num
-    real(dp), intent(in)   ::  loc(num,3)
+    real(dp), intent(in)   ::  rx(num), ry(num), rz(num)
     real(dp), intent(in)   ::  z(num)
     real(dp), intent(in)   ::  rc
     real(dp), intent(in)   ::  rd
@@ -278,7 +280,8 @@ subroutine stress(a1, a2, a3, num, loc, z, rc, rd, s)
                 if (i==j .and. shift1==0 .and. shift2==0 .and. shift3==0) cycle
 
                 ! compute distance between points
-                xyz_ij = loc(i,:) - (origin_j + loc(j,:))
+                xyz_ij = (/rx(i), ry(i), rz(i)/) &
+                                - (origin_j + (/rx(j), ry(j), rz(j)/))
                 rijrij = sum(xyz_ij * xyz_ij)
                 rij = sqrt(rijrij)
                 rij_rd = rij / rd
