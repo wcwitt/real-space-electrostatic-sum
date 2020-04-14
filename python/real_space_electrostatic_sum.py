@@ -90,13 +90,13 @@ def energy(a1, a2, a3, n, rx, ry, rz, z, rc, rd):
     e_c = ct.c_double()
 
     # ensure numpy arrays are stored as expected
-    a1_c = np.require(a1, dtype='float64', requirements=['C','A'])
-    a2_c = np.require(a2, dtype='float64', requirements=['C','A'])
-    a3_c = np.require(a3, dtype='float64', requirements=['C','A'])
-    rx_c = np.require(rx, dtype='float64', requirements=['C','A'])
-    ry_c = np.require(ry, dtype='float64', requirements=['C','A'])
-    rz_c = np.require(rz, dtype='float64', requirements=['C','A'])
-    z_c = np.require(z, dtype='float64', requirements=['C','A'])
+    a1_c = np.require(a1, dtype=ct.c_double, requirements=['C','A'])
+    a2_c = np.require(a2, dtype=ct.c_double, requirements=['C','A'])
+    a3_c = np.require(a3, dtype=ct.c_double, requirements=['C','A'])
+    rx_c = np.require(rx, dtype=ct.c_double, requirements=['C','A'])
+    ry_c = np.require(ry, dtype=ct.c_double, requirements=['C','A'])
+    rz_c = np.require(rz, dtype=ct.c_double, requirements=['C','A'])
+    z_c = np.require(z, dtype=ct.c_double, requirements=['C','A'])
 
     # call library function
     lib.c_real_space_electrostatic_sum_energy(
@@ -126,18 +126,18 @@ def force(a1, a2, a3, n, rx, ry, rz, z, rc, rd):
     rd_c = ct.c_double(rd)
 
     # ensure numpy arrays are stored as expected
-    a1_c = np.require(a1, dtype='float64', requirements=['C','A'])
-    a2_c = np.require(a2, dtype='float64', requirements=['C','A'])
-    a3_c = np.require(a3, dtype='float64', requirements=['C','A'])
-    rx_c = np.require(rx, dtype='float64', requirements=['C','A'])
-    ry_c = np.require(ry, dtype='float64', requirements=['C','A'])
-    rz_c = np.require(rz, dtype='float64', requirements=['C','A'])
-    z_c = np.require(z, dtype='float64', requirements=['C','A'])
+    a1_c = np.require(a1, dtype=ct.c_double, requirements=['C','A'])
+    a2_c = np.require(a2, dtype=ct.c_double, requirements=['C','A'])
+    a3_c = np.require(a3, dtype=ct.c_double, requirements=['C','A'])
+    rx_c = np.require(rx, dtype=ct.c_double, requirements=['C','A'])
+    ry_c = np.require(ry, dtype=ct.c_double, requirements=['C','A'])
+    rz_c = np.require(rz, dtype=ct.c_double, requirements=['C','A'])
+    z_c = np.require(z, dtype=ct.c_double, requirements=['C','A'])
 
     # create numpy arrays for forces
-    fx = np.require(np.zeros(n, dtype='float64'), requirements=['C','A'])
-    fy = np.require(np.zeros(n, dtype='float64'), requirements=['C','A'])
-    fz = np.require(np.zeros(n, dtype='float64'), requirements=['C','A'])
+    fx = np.require(np.zeros(n, dtype=ct.c_double), requirements=['C','A'])
+    fy = np.require(np.zeros(n, dtype=ct.c_double), requirements=['C','A'])
+    fz = np.require(np.zeros(n, dtype=ct.c_double), requirements=['C','A'])
 
     # call library function
     lib.c_real_space_electrostatic_sum_force(
@@ -169,16 +169,16 @@ def stress(a1, a2, a3, n, rx, ry, rz, z, rc, rd):
     rd_c = ct.c_double(rd)
 
     # ensure numpy arrays are stored as expected
-    a1_c = np.require(a1, dtype='float64', requirements=['C','A'])
-    a2_c = np.require(a2, dtype='float64', requirements=['C','A'])
-    a3_c = np.require(a3, dtype='float64', requirements=['C','A'])
-    rx_c = np.require(rx, dtype='float64', requirements=['C','A'])
-    ry_c = np.require(ry, dtype='float64', requirements=['C','A'])
-    rz_c = np.require(rz, dtype='float64', requirements=['C','A'])
-    z_c = np.require(z, dtype='float64', requirements=['C','A'])
+    a1_c = np.require(a1, dtype=ct.c_double, requirements=['C','A'])
+    a2_c = np.require(a2, dtype=ct.c_double, requirements=['C','A'])
+    a3_c = np.require(a3, dtype=ct.c_double, requirements=['C','A'])
+    rx_c = np.require(rx, dtype=ct.c_double, requirements=['C','A'])
+    ry_c = np.require(ry, dtype=ct.c_double, requirements=['C','A'])
+    rz_c = np.require(rz, dtype=ct.c_double, requirements=['C','A'])
+    z_c = np.require(z, dtype=ct.c_double, requirements=['C','A'])
 
     # create numpy array for stress
-    stress = np.require(np.zeros(6, dtype='float64'), requirements=['C','A'])
+    s = np.require(np.zeros(6, dtype=ct.c_double), requirements=['C','A'])
 
     # call library function
     lib.c_real_space_electrostatic_sum_stress(
@@ -192,7 +192,7 @@ def stress(a1, a2, a3, n, rx, ry, rz, z, rc, rd):
             z_c.ctypes.data_as(ct.POINTER(ct.c_double)),
             ct.byref(rc_c),
             ct.byref(rd_c),
-            stress.ctypes.data_as(ct.POINTER(ct.c_double)))
+            s.ctypes.data_as(ct.POINTER(ct.c_double)))
 
     # return the stress
-    return stress
+    return s
