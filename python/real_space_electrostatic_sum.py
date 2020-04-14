@@ -87,13 +87,13 @@ def energy(a1, a2, a3, num, rx, ry, rz, z, rc, rd):
     ene_c = ct.c_double()
 
     # ensure numpy arrays are stored as expected
-    a1_c = np.require(a1, dtype='float64', requirements=['F_CONTIGUOUS', 'ALIGNED'])
-    a2_c = np.require(a2, dtype='float64', requirements=['F_CONTIGUOUS', 'ALIGNED'])
-    a3_c = np.require(a3, dtype='float64', requirements=['F_CONTIGUOUS', 'ALIGNED'])
-    rx_c = np.require(rx, dtype='float64', requirements=['F_CONTIGUOUS', 'ALIGNED'])
-    ry_c = np.require(ry, dtype='float64', requirements=['F_CONTIGUOUS', 'ALIGNED'])
-    rz_c = np.require(rz, dtype='float64', requirements=['F_CONTIGUOUS', 'ALIGNED'])
-    z_c = np.require(z, dtype='float64', requirements=['F_CONTIGUOUS', 'ALIGNED'])
+    a1_c = np.require(a1, dtype='float64', requirements=['C','A'])
+    a2_c = np.require(a2, dtype='float64', requirements=['C','A'])
+    a3_c = np.require(a3, dtype='float64', requirements=['C','A'])
+    rx_c = np.require(rx, dtype='float64', requirements=['C','A'])
+    ry_c = np.require(ry, dtype='float64', requirements=['C','A'])
+    rz_c = np.require(rz, dtype='float64', requirements=['C','A'])
+    z_c = np.require(z, dtype='float64', requirements=['C','A'])
 
     # call library function
     lib.c_energy(a1_c.ctypes.data_as(ct.POINTER(ct.c_double)),
@@ -122,18 +122,18 @@ def force(a1, a2, a3, num, rx, ry, rz, z, rc, rd):
     rd_c = ct.c_double(rd)
 
     # ensure numpy arrays are stored as expected
-    a1_c = np.require(a1, dtype='float64', requirements=['F_CONTIGUOUS', 'ALIGNED'])
-    a2_c = np.require(a2, dtype='float64', requirements=['F_CONTIGUOUS', 'ALIGNED'])
-    a3_c = np.require(a3, dtype='float64', requirements=['F_CONTIGUOUS', 'ALIGNED'])
-    rx_c = np.require(rx, dtype='float64', requirements=['F_CONTIGUOUS', 'ALIGNED'])
-    ry_c = np.require(ry, dtype='float64', requirements=['F_CONTIGUOUS', 'ALIGNED'])
-    rz_c = np.require(rz, dtype='float64', requirements=['F_CONTIGUOUS', 'ALIGNED'])
-    z_c = np.require(z, dtype='float64', requirements=['F_CONTIGUOUS', 'ALIGNED'])
+    a1_c = np.require(a1, dtype='float64', requirements=['C','A'])
+    a2_c = np.require(a2, dtype='float64', requirements=['C','A'])
+    a3_c = np.require(a3, dtype='float64', requirements=['C','A'])
+    rx_c = np.require(rx, dtype='float64', requirements=['C','A'])
+    ry_c = np.require(ry, dtype='float64', requirements=['C','A'])
+    rz_c = np.require(rz, dtype='float64', requirements=['C','A'])
+    z_c = np.require(z, dtype='float64', requirements=['C','A'])
 
     # create numpy arrays for forces
-    fx = np.require(np.zeros(num, dtype='float64'), requirements=['F_CONTIGUOUS', 'ALIGNED'])
-    fy = np.require(np.zeros(num, dtype='float64'), requirements=['F_CONTIGUOUS', 'ALIGNED'])
-    fz = np.require(np.zeros(num, dtype='float64'), requirements=['F_CONTIGUOUS', 'ALIGNED'])
+    fx = np.require(np.zeros(num, dtype='float64'), requirements=['C','A'])
+    fy = np.require(np.zeros(num, dtype='float64'), requirements=['C','A'])
+    fz = np.require(np.zeros(num, dtype='float64'), requirements=['C','A'])
 
     # call library function
     lib.c_force(a1_c.ctypes.data_as(ct.POINTER(ct.c_double)),
@@ -164,16 +164,16 @@ def stress(a1, a2, a3, num, rx, ry, rz, z, rc, rd):
     rd_c = ct.c_double(rd)
 
     # ensure numpy arrays are stored as expected
-    a1_c = np.require(a1, dtype='float64', requirements=['F_CONTIGUOUS', 'ALIGNED'])
-    a2_c = np.require(a2, dtype='float64', requirements=['F_CONTIGUOUS', 'ALIGNED'])
-    a3_c = np.require(a3, dtype='float64', requirements=['F_CONTIGUOUS', 'ALIGNED'])
-    rx_c = np.require(rx, dtype='float64', requirements=['F_CONTIGUOUS', 'ALIGNED'])
-    ry_c = np.require(ry, dtype='float64', requirements=['F_CONTIGUOUS', 'ALIGNED'])
-    rz_c = np.require(rz, dtype='float64', requirements=['F_CONTIGUOUS', 'ALIGNED'])
-    z_c = np.require(z, dtype='float64', requirements=['F_CONTIGUOUS', 'ALIGNED'])
+    a1_c = np.require(a1, dtype='float64', requirements=['C','A'])
+    a2_c = np.require(a2, dtype='float64', requirements=['C','A'])
+    a3_c = np.require(a3, dtype='float64', requirements=['C','A'])
+    rx_c = np.require(rx, dtype='float64', requirements=['C','A'])
+    ry_c = np.require(ry, dtype='float64', requirements=['C','A'])
+    rz_c = np.require(rz, dtype='float64', requirements=['C','A'])
+    z_c = np.require(z, dtype='float64', requirements=['C','A'])
 
     # create numpy array for stress
-    stress = np.require(np.zeros(6, dtype='float64'), requirements=['F_CONTIGUOUS', 'ALIGNED'])
+    stress = np.require(np.zeros(6, dtype='float64'), requirements=['C','A'])
 
     # call library function
     lib.c_stress(a1_c.ctypes.data_as(ct.POINTER(ct.c_double)),
