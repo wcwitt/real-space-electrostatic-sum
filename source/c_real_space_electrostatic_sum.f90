@@ -29,7 +29,8 @@ module c_real_space_electrostatic_sum
 
 contains
 
-subroutine c_energy(a1, a2, a3, n, rx, ry, rz, z, rc, rd, e) bind(c)
+subroutine c_real_space_electrostatic_sum_energy(&
+        a1, a2, a3, n, rx, ry, rz, z, rc, rd, e) bind(c)
 !______________________________________________________________________________
 !
     implicit none
@@ -47,7 +48,8 @@ subroutine c_energy(a1, a2, a3, n, rx, ry, rz, z, rc, rd, e) bind(c)
 
 end subroutine
 
-subroutine c_force(a1, a2, a3, n, rx, ry, rz, z, rc, rd, fx, fy, fz) bind(c)
+subroutine c_real_space_electrostatic_sum_force(&
+        a1, a2, a3, n, rx, ry, rz, z, rc, rd, fx, fy, fz) bind(c)
 !______________________________________________________________________________
 !
     implicit none
@@ -65,7 +67,8 @@ subroutine c_force(a1, a2, a3, n, rx, ry, rz, z, rc, rd, fx, fy, fz) bind(c)
 
 end subroutine
 
-subroutine c_stress(a1, a2, a3, n, rx, ry, rz, z, rc, rd, s) bind(c)
+subroutine c_real_space_electrostatic_sum_stress(&
+        a1, a2, a3, n, rx, ry, rz, z, rc, rd, s) bind(c)
 !______________________________________________________________________________
 !
     implicit none

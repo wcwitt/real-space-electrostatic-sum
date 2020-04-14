@@ -31,49 +31,52 @@ import numpy as np
 lib = ct.cdll.LoadLibrary(os.path.dirname(os.path.abspath(__file__)) 
                             + '/../library/real_space_electrostatic_sum.so')
 
-# set argtypes and restype for 'c_energy'
-lib.c_energy.argtypes = [ct.POINTER(ct.c_double), # a1
-                         ct.POINTER(ct.c_double), # a2
-                         ct.POINTER(ct.c_double), # a3
-                         ct.POINTER(ct.c_int),    # n
-                         ct.POINTER(ct.c_double), # rx
-                         ct.POINTER(ct.c_double), # ry
-                         ct.POINTER(ct.c_double), # rz
-                         ct.POINTER(ct.c_double), # z
-                         ct.POINTER(ct.c_double), # rc
-                         ct.POINTER(ct.c_double), # rd
-                         ct.POINTER(ct.c_double)] # e
-lib.c_energy.restype = None
+# set argtypes and restype for 'c_real_space_electrostatic_sum_energy'
+lib.c_real_space_electrostatic_sum_energy.argtypes = [
+        ct.POINTER(ct.c_double), # a1
+        ct.POINTER(ct.c_double), # a2
+        ct.POINTER(ct.c_double), # a3
+        ct.POINTER(ct.c_int),    # n
+        ct.POINTER(ct.c_double), # rx
+        ct.POINTER(ct.c_double), # ry
+        ct.POINTER(ct.c_double), # rz
+        ct.POINTER(ct.c_double), # z
+        ct.POINTER(ct.c_double), # rc
+        ct.POINTER(ct.c_double), # rd
+        ct.POINTER(ct.c_double)] # e
+lib.c_real_space_electrostatic_sum_energy.restype = None
 
-# set argtypes and restype for 'c_force'
-lib.c_force.argtypes = [ct.POINTER(ct.c_double), # a1
-                        ct.POINTER(ct.c_double), # a2
-                        ct.POINTER(ct.c_double), # a3
-                        ct.POINTER(ct.c_int),    # n
-                        ct.POINTER(ct.c_double), # rx
-                        ct.POINTER(ct.c_double), # ry
-                        ct.POINTER(ct.c_double), # rz
-                        ct.POINTER(ct.c_double), # z
-                        ct.POINTER(ct.c_double), # rc
-                        ct.POINTER(ct.c_double), # rd
-                        ct.POINTER(ct.c_double), # fx
-                        ct.POINTER(ct.c_double), # fy
-                        ct.POINTER(ct.c_double)] # fz
-lib.c_force.restype = None
+# set argtypes and restype for 'c_real_space_electrostatic_sum_force'
+lib.c_real_space_electrostatic_sum_force.argtypes = [
+        ct.POINTER(ct.c_double), # a1
+        ct.POINTER(ct.c_double), # a2
+        ct.POINTER(ct.c_double), # a3
+        ct.POINTER(ct.c_int),    # n
+        ct.POINTER(ct.c_double), # rx
+        ct.POINTER(ct.c_double), # ry
+        ct.POINTER(ct.c_double), # rz
+        ct.POINTER(ct.c_double), # z
+        ct.POINTER(ct.c_double), # rc
+        ct.POINTER(ct.c_double), # rd
+        ct.POINTER(ct.c_double), # fx
+        ct.POINTER(ct.c_double), # fy
+        ct.POINTER(ct.c_double)] # fz
+lib.c_real_space_electrostatic_sum_force.restype = None
 
-# set argtypes and restype for 'c_stress'
-lib.c_stress.argtypes = [ct.POINTER(ct.c_double), # a1
-                         ct.POINTER(ct.c_double), # a2
-                         ct.POINTER(ct.c_double), # a3
-                         ct.POINTER(ct.c_int),    # n
-                         ct.POINTER(ct.c_double), # rx
-                         ct.POINTER(ct.c_double), # ry
-                         ct.POINTER(ct.c_double), # rz
-                         ct.POINTER(ct.c_double), # z
-                         ct.POINTER(ct.c_double), # rc
-                         ct.POINTER(ct.c_double), # rd
-                         ct.POINTER(ct.c_double)] # s
-lib.c_stress.restype = None
+# set argtypes and restype for 'c_real_space_electrostatic_sum_stress'
+lib.c_real_space_electrostatic_sum_stress.argtypes = [
+        ct.POINTER(ct.c_double), # a1
+        ct.POINTER(ct.c_double), # a2
+        ct.POINTER(ct.c_double), # a3
+        ct.POINTER(ct.c_int),    # n
+        ct.POINTER(ct.c_double), # rx
+        ct.POINTER(ct.c_double), # ry
+        ct.POINTER(ct.c_double), # rz
+        ct.POINTER(ct.c_double), # z
+        ct.POINTER(ct.c_double), # rc
+        ct.POINTER(ct.c_double), # rd
+        ct.POINTER(ct.c_double)] # s
+lib.c_real_space_electrostatic_sum_stress.restype = None
 
 #______________________________________________________________________________
 #                                                                   energy
@@ -96,17 +99,18 @@ def energy(a1, a2, a3, n, rx, ry, rz, z, rc, rd):
     z_c = np.require(z, dtype='float64', requirements=['C','A'])
 
     # call library function
-    lib.c_energy(a1_c.ctypes.data_as(ct.POINTER(ct.c_double)),
-                 a2_c.ctypes.data_as(ct.POINTER(ct.c_double)),
-                 a3_c.ctypes.data_as(ct.POINTER(ct.c_double)),
-                 ct.byref(n_c),
-                 rx_c.ctypes.data_as(ct.POINTER(ct.c_double)),
-                 ry_c.ctypes.data_as(ct.POINTER(ct.c_double)),
-                 rz_c.ctypes.data_as(ct.POINTER(ct.c_double)),
-                 z_c.ctypes.data_as(ct.POINTER(ct.c_double)),
-                 ct.byref(rc_c),
-                 ct.byref(rd_c),
-                 ct.byref(e_c))
+    lib.c_real_space_electrostatic_sum_energy(
+            a1_c.ctypes.data_as(ct.POINTER(ct.c_double)),
+            a2_c.ctypes.data_as(ct.POINTER(ct.c_double)),
+            a3_c.ctypes.data_as(ct.POINTER(ct.c_double)),
+            ct.byref(n_c),
+            rx_c.ctypes.data_as(ct.POINTER(ct.c_double)),
+            ry_c.ctypes.data_as(ct.POINTER(ct.c_double)),
+            rz_c.ctypes.data_as(ct.POINTER(ct.c_double)),
+            z_c.ctypes.data_as(ct.POINTER(ct.c_double)),
+            ct.byref(rc_c),
+            ct.byref(rd_c),
+            ct.byref(e_c))
 
     # return the energy
     return e_c.value
@@ -136,19 +140,20 @@ def force(a1, a2, a3, n, rx, ry, rz, z, rc, rd):
     fz = np.require(np.zeros(n, dtype='float64'), requirements=['C','A'])
 
     # call library function
-    lib.c_force(a1_c.ctypes.data_as(ct.POINTER(ct.c_double)),
-                a2_c.ctypes.data_as(ct.POINTER(ct.c_double)),
-                a3_c.ctypes.data_as(ct.POINTER(ct.c_double)),
-                ct.byref(n_c),
-                rx_c.ctypes.data_as(ct.POINTER(ct.c_double)),
-                ry_c.ctypes.data_as(ct.POINTER(ct.c_double)),
-                rz_c.ctypes.data_as(ct.POINTER(ct.c_double)),
-                z_c.ctypes.data_as(ct.POINTER(ct.c_double)),
-                ct.byref(rc_c),
-                ct.byref(rd_c),
-                fx.ctypes.data_as(ct.POINTER(ct.c_double)),
-                fy.ctypes.data_as(ct.POINTER(ct.c_double)),
-                fz.ctypes.data_as(ct.POINTER(ct.c_double)))
+    lib.c_real_space_electrostatic_sum_force(
+            a1_c.ctypes.data_as(ct.POINTER(ct.c_double)),
+            a2_c.ctypes.data_as(ct.POINTER(ct.c_double)),
+            a3_c.ctypes.data_as(ct.POINTER(ct.c_double)),
+            ct.byref(n_c),
+            rx_c.ctypes.data_as(ct.POINTER(ct.c_double)),
+            ry_c.ctypes.data_as(ct.POINTER(ct.c_double)),
+            rz_c.ctypes.data_as(ct.POINTER(ct.c_double)),
+            z_c.ctypes.data_as(ct.POINTER(ct.c_double)),
+            ct.byref(rc_c),
+            ct.byref(rd_c),
+            fx.ctypes.data_as(ct.POINTER(ct.c_double)),
+            fy.ctypes.data_as(ct.POINTER(ct.c_double)),
+            fz.ctypes.data_as(ct.POINTER(ct.c_double)))
 
     # return the forces
     return fx, fy, fz
@@ -176,17 +181,18 @@ def stress(a1, a2, a3, n, rx, ry, rz, z, rc, rd):
     stress = np.require(np.zeros(6, dtype='float64'), requirements=['C','A'])
 
     # call library function
-    lib.c_stress(a1_c.ctypes.data_as(ct.POINTER(ct.c_double)),
-                 a2_c.ctypes.data_as(ct.POINTER(ct.c_double)),
-                 a3_c.ctypes.data_as(ct.POINTER(ct.c_double)),
-                 ct.byref(n_c),
-                 rx_c.ctypes.data_as(ct.POINTER(ct.c_double)),
-                 ry_c.ctypes.data_as(ct.POINTER(ct.c_double)),
-                 rz_c.ctypes.data_as(ct.POINTER(ct.c_double)),
-                 z_c.ctypes.data_as(ct.POINTER(ct.c_double)),
-                 ct.byref(rc_c),
-                 ct.byref(rd_c),
-                 stress.ctypes.data_as(ct.POINTER(ct.c_double)))
+    lib.c_real_space_electrostatic_sum_stress(
+            a1_c.ctypes.data_as(ct.POINTER(ct.c_double)),
+            a2_c.ctypes.data_as(ct.POINTER(ct.c_double)),
+            a3_c.ctypes.data_as(ct.POINTER(ct.c_double)),
+            ct.byref(n_c),
+            rx_c.ctypes.data_as(ct.POINTER(ct.c_double)),
+            ry_c.ctypes.data_as(ct.POINTER(ct.c_double)),
+            rz_c.ctypes.data_as(ct.POINTER(ct.c_double)),
+            z_c.ctypes.data_as(ct.POINTER(ct.c_double)),
+            ct.byref(rc_c),
+            ct.byref(rd_c),
+            stress.ctypes.data_as(ct.POINTER(ct.c_double)))
 
     # return the stress
     return stress
