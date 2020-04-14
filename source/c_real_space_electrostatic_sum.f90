@@ -29,57 +29,57 @@ module c_real_space_electrostatic_sum
 
 contains
 
-subroutine c_energy(a1, a2, a3, num, rx, ry, rz, z, rc, rd, ene) bind(c)
+subroutine c_energy(a1, a2, a3, n, rx, ry, rz, z, rc, rd, e) bind(c)
 !______________________________________________________________________________
 !
     implicit none
 
     real(c_double), intent(in)   ::  a1(3), a2(3), a3(3)
-    integer(c_int), intent(in)   ::  num
-    real(c_double), intent(in)   ::  rx(num), ry(num), rz(num)
-    real(c_double), intent(in)   ::  z(num)
+    integer(c_int), intent(in)   ::  n
+    real(c_double), intent(in)   ::  rx(n), ry(n), rz(n)
+    real(c_double), intent(in)   ::  z(n)
     real(c_double), intent(in)   ::  rc
     real(c_double), intent(in)   ::  rd
-    real(c_double), intent(out)  ::  ene
+    real(c_double), intent(out)  ::  e
 !______________________________________________________________________________
 !
-    call energy(a1, a2, a3, num, rx, ry, rz, z, rc, rd, ene)
+    call energy(a1, a2, a3, n, rx, ry, rz, z, rc, rd, e)
 
 end subroutine
 
-subroutine c_force(a1, a2, a3, num, rx, ry, rz, z, rc, rd, fx, fy, fz) bind(c)
+subroutine c_force(a1, a2, a3, n, rx, ry, rz, z, rc, rd, fx, fy, fz) bind(c)
 !______________________________________________________________________________
 !
     implicit none
 
     real(c_double), intent(in)   ::  a1(3), a2(3), a3(3)
-    integer(c_int), intent(in)   ::  num
-    real(c_double), intent(in)   ::  rx(num), ry(num), rz(num)
-    real(c_double), intent(in)   ::  z(num)
+    integer(c_int), intent(in)   ::  n
+    real(c_double), intent(in)   ::  rx(n), ry(n), rz(n)
+    real(c_double), intent(in)   ::  z(n)
     real(c_double), intent(in)   ::  rc
     real(c_double), intent(in)   ::  rd
-    real(c_double), intent(out)  ::  fx(num), fy(num), fz(num)
+    real(c_double), intent(out)  ::  fx(n), fy(n), fz(n)
 !______________________________________________________________________________
 !
-    call force(a1, a2, a3, num, rx, ry, rz, z, rc, rd, fx, fy, fz)
+    call force(a1, a2, a3, n, rx, ry, rz, z, rc, rd, fx, fy, fz)
 
 end subroutine
 
-subroutine c_stress(a1, a2, a3, num, rx, ry, rz, z, rc, rd, s) bind(c)
+subroutine c_stress(a1, a2, a3, n, rx, ry, rz, z, rc, rd, s) bind(c)
 !______________________________________________________________________________
 !
     implicit none
 
     real(c_double), intent(in)   ::  a1(3), a2(3), a3(3)
-    integer(c_int), intent(in)   ::  num
-    real(c_double), intent(in)   ::  rx(num), ry(num), rz(num)
-    real(c_double), intent(in)   ::  z(num)
+    integer(c_int), intent(in)   ::  n
+    real(c_double), intent(in)   ::  rx(n), ry(n), rz(n)
+    real(c_double), intent(in)   ::  z(n)
     real(c_double), intent(in)   ::  rc
     real(c_double), intent(in)   ::  rd
     real(c_double), intent(out)  ::  s(6)
 !______________________________________________________________________________
 !
-    call stress(a1, a2, a3, num, rx, ry, rz, z, rc, rd, s)
+    call stress(a1, a2, a3, n, rx, ry, rz, z, rc, rd, s)
 
 end subroutine
 

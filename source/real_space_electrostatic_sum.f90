@@ -31,18 +31,18 @@ module real_space_electrostatic_sum
 
 contains
 
-subroutine energy(a1, a2, a3, num, rx, ry, rz, z, rc, rd, ene)
+subroutine energy(a1, a2, a3, n, rx, ry, rz, z, rc, rd, e)
 !______________________________________________________________________________
 !
     implicit none
 
     real(dp), intent(in)   ::  a1(3), a2(3), a3(3)
-    integer,  intent(in)   ::  num
-    real(dp), intent(in)   ::  rx(num), ry(num), rz(num)
-    real(dp), intent(in)   ::  z(num)
+    integer,  intent(in)   ::  n
+    real(dp), intent(in)   ::  rx(n), ry(n), rz(n)
+    real(dp), intent(in)   ::  z(n)
     real(dp), intent(in)   ::  rc
     real(dp), intent(in)   ::  rd
-    real(dp), intent(out)  ::  ene
+    real(dp), intent(out)  ::  e
 
     real(dp) ::  vol, rho, ei, qi, rij, a(3,3), bt(3,3), &
                  d_100, d_010, d_001, origin_j(3), xyz_ij(3), ra
@@ -72,10 +72,10 @@ subroutine energy(a1, a2, a3, num, rx, ry, rz, z, rc, rd, ene)
     shift3max = ceiling(rc / d_001)
 
     ! prepare for loop over ions in cell
-    ene = 0.0_dp
+    e = 0.0_dp
 
     ! loop over ions in cell
-    do i = 1, num
+    do i = 1, n
     
         ! prepare for loop over neighboring ions
         ei = 0.0_dp
@@ -88,7 +88,7 @@ subroutine energy(a1, a2, a3, num, rx, ry, rz, z, rc, rd, ene)
 
             ! get origin of shifted cell and loop over ions in that cell
             origin_j = shift1*a1 + shift2*a2 + shift3*a3            
-            do j = 1, num
+            do j = 1, n
 
                 ! exclude i==j
                 if (i==j .and. shift1==0 .and. shift2==0 .and. shift3==0) cycle
@@ -122,24 +122,24 @@ subroutine energy(a1, a2, a3, num, rx, ry, rz, z, rc, rd, ene)
               - 1.0/(sqrt_pi * rd) * z(i) * z(i)
 
         ! increment the total energy
-        ene = ene + ei
+        e = e + ei
 
     end do  ! i
 
 end subroutine
 
-subroutine force(a1, a2, a3, num, rx, ry, rz, z, rc, rd, fx, fy, fz)
+subroutine force(a1, a2, a3, n, rx, ry, rz, z, rc, rd, fx, fy, fz)
 !______________________________________________________________________________
 !
     implicit none
 
     real(dp), intent(in)   ::  a1(3), a2(3), a3(3)
-    integer,  intent(in)   ::  num
-    real(dp), intent(in)   ::  rx(num), ry(num), rz(num)
-    real(dp), intent(in)   ::  z(num)
+    integer,  intent(in)   ::  n
+    real(dp), intent(in)   ::  rx(n), ry(n), rz(n)
+    real(dp), intent(in)   ::  z(n)
     real(dp), intent(in)   ::  rc
     real(dp), intent(in)   ::  rd
-    real(dp), intent(out)  ::  fx(num), fy(num), fz(num)
+    real(dp), intent(out)  ::  fx(n), fy(n), fz(n)
 
     real(dp) ::  rij, rijrij, rij_rd, a(3,3), bt(3,3), &
                  d_100, d_010, d_001, origin_j(3), xyz_ij(3), t
@@ -167,7 +167,7 @@ subroutine force(a1, a2, a3, num, rx, ry, rz, z, rc, rd, fx, fy, fz)
     fz = 0.0_dp
 
     ! loop over ions in cell
-    do i = 1, num
+    do i = 1, n
     
         ! loop over cells
         do shift3 = -shift3max, shift3max
@@ -176,7 +176,7 @@ subroutine force(a1, a2, a3, num, rx, ry, rz, z, rc, rd, fx, fy, fz)
 
             ! get origin of shifted cell and loop over ions in that cell
             origin_j = shift1*a1 + shift2*a2 + shift3*a3            
-            do j = 1, num
+            do j = 1, n
 
                 ! exclude i==j
                 if (i==j .and. shift1==0 .and. shift2==0 .and. shift3==0) cycle
@@ -216,15 +216,15 @@ subroutine force(a1, a2, a3, num, rx, ry, rz, z, rc, rd, fx, fy, fz)
 
 end subroutine
 
-subroutine stress(a1, a2, a3, num, rx, ry, rz, z, rc, rd, s)
+subroutine stress(a1, a2, a3, n, rx, ry, rz, z, rc, rd, s)
 !______________________________________________________________________________
 !
     implicit none
 
     real(dp), intent(in)   ::  a1(3), a2(3), a3(3)
-    integer,  intent(in)   ::  num
-    real(dp), intent(in)   ::  rx(num), ry(num), rz(num)
-    real(dp), intent(in)   ::  z(num)
+    integer,  intent(in)   ::  n
+    real(dp), intent(in)   ::  rx(n), ry(n), rz(n)
+    real(dp), intent(in)   ::  z(n)
     real(dp), intent(in)   ::  rc
     real(dp), intent(in)   ::  rd
     real(dp), intent(out)  ::  s(6)
@@ -261,7 +261,7 @@ subroutine stress(a1, a2, a3, num, rx, ry, rz, z, rc, rd, s)
     s = 0.0_dp
 
     ! loop over ions in cell
-    do i = 1, num
+    do i = 1, n
     
         ! prepare for loop over neighboring ions
         si = 0.0_dp
@@ -274,7 +274,7 @@ subroutine stress(a1, a2, a3, num, rx, ry, rz, z, rc, rd, s)
 
             ! get origin of shifted cell and loop over ions in that cell
             origin_j = shift1*a1 + shift2*a2 + shift3*a3            
-            do j = 1, num
+            do j = 1, n
 
                 ! exclude i==j
                 if (i==j .and. shift1==0 .and. shift2==0 .and. shift3==0) cycle
