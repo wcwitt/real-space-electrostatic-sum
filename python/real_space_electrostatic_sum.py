@@ -29,7 +29,7 @@ import numpy as np
 
 # load library
 lib = ct.cdll.LoadLibrary(os.path.dirname(os.path.abspath(__file__)) 
-                            + '/../library/real_space_electrostatic_sum.so')
+                            + '/../build/libreal_space_electrostatic_sum.so')
 
 # set argtypes and restype for 'c_real_space_electrostatic_sum_energy'
 lib.c_real_space_electrostatic_sum_energy.argtypes = [
