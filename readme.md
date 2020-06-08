@@ -11,14 +11,17 @@ Repository contains:
 * a [C-style interface](source/c_real_space_electrostatic_sum.f90);
 * a [Python wrapper](python/real_space_electrostatic_sum.py) built with ctypes;
 * a [Jupyter notebook](https://nbviewer.jupyter.org/github/wcwitt/real-space-electrostatic-sum/blob/master/python/benchmarking.ipynb) with examples and benchmarking;
-* a [set of unit tests](https://github.com/wcwitt/real-space-electrostatic-sum/blob/master/test/test.py) for the energy, force, and stress routines.
+* a [test set](test/test.py) for the energy, force, and stress routines.
 
 To build and test:
 
 ```
-mkdir build && cd build
+git clone https://github.com/wcwitt/real-space-electrostatic-sum
+cd real-space-electrostatic-sum
+mkdir build
+cd build
 cmake ..
 make
-cd ../test
-python test.py
+cd ..
+python test/test.py
 ```
